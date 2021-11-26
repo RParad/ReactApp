@@ -102,7 +102,7 @@ class SearchFilms extends React.Component {
 }
 
 componentDidMount() {
-    fetch("http://localhost:8080/films")
+    fetch("http://18.116.89.248:8080/films")
         .then((response) => response.json())
         .then((jsonData) => {
                 // console.log(jsonData)
@@ -260,13 +260,13 @@ class FilmDataEntryBoxes extends React.Component {
     super(props);
     this.state = {
       AddTitle: "",
-      AddID: "",
-      AddFilmID: "",
-      AddLength: "",
-      EditID: "",
-      EditLength: "",
+      AddID: "0",
+      AddFilmID: "0",
+      AddLength: "0",
+      EditID: "0",
+      EditLength: "0",
       EditTitle: "",
-      EditFilmID: ""
+      EditFilmID: "0"
     };
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeID = this.handleChangeID.bind(this);
@@ -307,7 +307,29 @@ class FilmDataEntryBoxes extends React.Component {
   handleSubmit(event) {
     alert("You have added " + this.state.AddTitle);
     event.preventDefault();
-  }
+
+    const title = this.state.AddTitle;
+    const language_id = this.state.AddID;
+    const film_id = this.state.AddFilmID;   
+    const length = this.state.AddLength
+
+
+        const filmData = {
+
+            film_id: film_id,
+            title: title,
+            length: length,
+            language_id: language_id,
+        };
+        fetch("http://18.116.89.248:8080/films/addFilm", {
+            method: "POST",
+            headers: {
+                accept: "application/json",
+                "Content-Type": "application/json" },
+            body: JSON.stringify(filmData),
+        }) .then((response) => response.json() 
+        )};
+
   handleEditSubmit(event) {
     alert ("You have Editted " + this.state.EditTitle);
     event.preventDefault(); 
